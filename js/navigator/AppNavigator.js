@@ -1,10 +1,8 @@
 import React from 'react';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// import {createStackNavigator} from '@react-navigation/stack';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-
+import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 import Home from '../page/Home';
@@ -86,12 +84,13 @@ const ActivityNavigator = createStackNavigator(
       screen: ActivityDetails,
       navigationOptions: {
         headerShown: false,
+        headerTitleAlign: 'center',
       },
     },
   },
   {
     navigationOptions: {
-      headerShown: false,
+      // headerShown: false,
     },
   },
 );
@@ -99,12 +98,14 @@ const MainNavigator = createStackNavigator({
   TabNavigator,
   ActivityNavigator,
 });
-
-export default createAppContainer(
+export const RootNavigator = createAppContainer(
   createSwitchNavigator({
     Init: InitNavigator,
     Main: MainNavigator,
   }),
+);
+export const middleware = createReactNavigationReduxMiddleware(
+  state => state.nav,
 );
 
 // const TABS = [

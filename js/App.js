@@ -6,28 +6,57 @@
  * @flow
  */
 
-import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
-import Navigators from './navigator/AppNavigator';
+import React, {Component} from 'react';
+import {RootNavigator} from './navigator/AppNavigator';
+import {connect, Provider} from 'react-redux';
+import {BackHandler} from 'react-native';
+import {createReduxContainer} from 'react-navigation-redux-helpers';
+import {NavigationActions} from 'react-navigation';
+import store from './store';
 
-const App: () => React$Node = () => {
-  return (
-    <View style={style.container}>
-      <Navigators />
-    </View>
-  );
-};
-
-const {width, height} = Dimensions.get('window');
-console.log(width, height);
-
-const style = StyleSheet.create({
-  container: {
-    // width: 350,
-    // height: 600,
-    width,
-    height,
-    paddingBottom: 50,
-  },
+const App = createReduxContainer(RootNavigator);
+const mapStateToProps = state => ({
+  state: state.nav,
 });
-export default App;
+
+// const AppWithNavigationState = connect(mapStateToProps)(App);
+
+@connect(mapStateToProps)
+class AppWithNavigationState extends Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => {
+    const {
+      dispatch,
+      state: {index},
+    } = this.props;
+
+    if (index === 0) {
+      return false;
+    }
+
+    dispatch(NavigationActions.back());
+    return true;
+  };
+
+  render() {
+    /* more setup code here! this is not a runnable snippet */
+    return <App {...this.props} />;
+  }
+}
+
+export default class Root extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
+  }
+}
