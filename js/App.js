@@ -8,24 +8,26 @@
 
 import React from 'react';
 import {View, StyleSheet, Dimensions} from 'react-native';
-import InitNavigator from './navigator/app-navigator';
-import {NavigationContainer} from '@react-navigation/native';
+import Navigators from './navigator/AppNavigator';
 
 const App: () => React$Node = () => {
   return (
     <View style={style.container}>
-      <NavigationContainer>
-        <InitNavigator />
-      </NavigationContainer>
+      <Navigators />
     </View>
   );
 };
 
 const {width, height} = Dimensions.get('window');
+console.log(width, height);
+
 const style = StyleSheet.create({
   container: {
-    width: width,
-    height: height,
+    // width: 350,
+    // height: 600,
+    width,
+    height,
+    paddingBottom: 50,
   },
 });
 export default App;

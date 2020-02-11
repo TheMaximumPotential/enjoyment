@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
-import NavigatorUtil from '../../navigator/navigation-util';
+import NavigatorUtil from '../navigator/NavigatorUtil';
 
 class Welcome extends Component {
   componentDidMount() {
@@ -8,14 +8,14 @@ class Welcome extends Component {
       NavigatorUtil.resetToHomePage({
         navigation: this.props.navigation,
       });
-    }, 2000);
+    }, 200);
   }
   componentWillUnmount() {
     this.timer && clearTimeout(this.timer);
   }
   render() {
     return (
-      <View alignItem={'center'} justifyContent={'center'}>
+      <View>
         <Text>Welcome</Text>
       </View>
     );
