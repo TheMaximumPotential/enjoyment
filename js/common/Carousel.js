@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
+import {View, Text} from 'react-native';
 
 class Carousel extends Component {
   render() {
-    return <Text>Carousel</Text>;
+    return (
+      <View>
+        <Text>Carousel</Text>
+      </View>
+    );
   }
 }
 
